@@ -106,49 +106,6 @@ TEST(array_list, can_not_del_from_empty_list)
 	ASSERT_ANY_THROW(A.DelLast());
 }
 
-TEST(array_list_iterator, is_go_next)
-{
-	TArrayList<int> A(3);
-	A.InsLast(2);
-	A.InsFirst(1);
-	A.InsFirst(0);
-
-	TArrayListIterator<int> i = A.begin();
-
-	EXPECT_TRUE(i.IsGoNext());
-}
-
-TEST(array_list_iterator, get_data)
-{
-	TArrayList<int> A(3);
-	A.InsLast(2);
-	A.InsFirst(1);
-	A.InsFirst(0);
-
-	TArrayListIterator<int> i = A.end();
-	EXPECT_EQ(2, i.GetData());
-
-	TArrayListIterator<int> j = A.begin();
-	EXPECT_EQ(0, j.GetData());
-}
-
-TEST(array_list_iterator, go_next)
-{
-	TArrayList<int> A(4);
-	A.InsLast(2);
-	A.InsFirst(1);
-	A.InsFirst(0);
-
-	TArrayListIterator<int> i = A.begin();
-	int k = 0;
-	while (i.IsGoNext())
-	{
-		k++;
-		ASSERT_NO_THROW(i.GoNext());
-	}
-	EXPECT_EQ(k, 3);
-}
-
 TEST(array_list, ins_with_iterator)
 {
 	TArrayList<int> A(4);
@@ -182,6 +139,41 @@ TEST(array_list, del_with_iterator)
 	EXPECT_EQ(3, A.GetCount());
 	EXPECT_EQ(0, A.GetFirst());
 	EXPECT_EQ(3, A.GetLast());
+	A.DelFirst();
+	EXPECT_EQ(1, A.GetFirst());
+}
+
+TEST(array_list, use_prime_numbers)
+{
+	TArrayList<int> A(6);
+	A.InsLast(2);
+	A.InsLast(1);
+	A.InsLast(6);
+	A.InsLast(3);
+	A.InsLast(4);
+	A.InsLast(-4);
+
+	TArrayList<int> B = A.prime_numbers(7);
+
+	EXPECT_EQ(3, B.GetCount());
+	EXPECT_EQ(2, B.GetFirst());
+	B.DelFirst();
+	EXPECT_EQ(1, B.GetFirst());
+	B.DelFirst();
+	EXPECT_EQ(3, B.GetFirst());
+}
+
+TEST(array_list, use_reverse)
+{
+	TArrayList<int> A(6);
+	A.InsLast(1);
+	A.InsLast(2);
+	A.InsLast(3);
+
+	A.reverse();
+	EXPECT_EQ(3, A.GetFirst());
+	A.DelFirst();
+	EXPECT_EQ(2, A.GetFirst());
 	A.DelFirst();
 	EXPECT_EQ(1, A.GetFirst());
 }
