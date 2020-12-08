@@ -18,6 +18,8 @@ public:
 	void GoNext();
 
 	TArrayListIterator<T>& operator = (const TArrayListIterator<T>& other);
+	bool operator == (const TArrayListIterator<T>& other);
+	bool operator != (const TArrayListIterator<T>& other);
 
 	T GetData();
 	int GetIndex();
@@ -64,6 +66,22 @@ inline TArrayListIterator<T>& TArrayListIterator<T>::operator=(const TArrayListI
 	list = other.list;
 	index = other.index;
 	return *this;
+}
+
+template<class T>
+inline bool TArrayListIterator<T>::operator==(const TArrayListIterator<T>& other)
+{
+	if (this->index == other.index)
+		return true;
+	else return false;
+}
+
+template<class T>
+inline bool TArrayListIterator<T>::operator!=(const TArrayListIterator<T>& other)
+{
+	if (*this == other)
+		return false;
+	else return true;
 }
 
 template<class T>
