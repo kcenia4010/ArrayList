@@ -46,6 +46,9 @@ public:
 
 	template <class T>
 	friend class TArrayListIterator;
+
+	TArrayList<T> prime_numbers(int K);
+	void reverse();
 };
 
 template<class T>
@@ -55,7 +58,7 @@ inline TArrayList<T>::TArrayList(int _size)
 		throw logic_error("invalid_argument");
 	size = _size;
 	data = new T[size];
-	links = new int[size];
+	links = new T[size];
 	count = 0;
 	root = -1;
 	for (int i = 0; i < size; i++)
@@ -70,7 +73,7 @@ inline TArrayList<T>::TArrayList(TArrayList<T>& other)
 	root = other.root;
 
 	data = new T[size];
-	links = new int[size];
+	links = new T[size];
 
 	for (int i = 0; i < size; i++)
 	{
@@ -108,7 +111,7 @@ inline TArrayList<T>& TArrayList<T>::operator=(TArrayList<T>& other)
 	}
 
 	data = new T[size];
-	links = new int[size];
+	links = new T[size];
 
 	for (int i = 0; i < size; i++)
 	{
@@ -318,6 +321,50 @@ inline TArrayListIterator<T> TArrayList<T>::end()
 	while (links[end] != -1)
 		end = links[end];
 	return TArrayListIterator<T>(*this, end);
+}
+
+template<class T>
+TArrayList<T> TArrayList<T>::prime_numbers(int K)
+{
+
+	TArrayListIterator<int> i = this->begin();
+
+	TArrayList<T> result(this->count);
+	bool f = true;
+	while (i.IsGoNext())
+	{
+		if ((i.GetData() > K) || (i.GetData() < 1))
+		{
+			i.GoNext();
+			continue;
+		}
+		f = true;
+		for (int j = 2; j < i.GetData(); j++)
+		{
+			if (i.GetData() % j == 0)
+			{
+				f = false;
+				break;
+			}
+		}
+		if (f == true)
+			result.InsLast(i.GetData());
+		i.GoNext();
+	}
+	return result;
+}
+
+template<class T>
+inline void TArrayList<T>::reverse()
+{
+	TArrayList result(size);
+	TArrayListIterator<int> i = this->begin();
+	while (i.IsGoNext())
+	{
+		result.InsFirst(i.GetData());
+		i.GoNext();
+	}
+	*this = result;
 }
 
 
